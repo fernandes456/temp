@@ -58,6 +58,17 @@ extension HeroViewController: UICollectionViewDelegate, UICollectionViewDataSour
         }
         let character = viewModel.heroes[indexPath.item]
         cell.configure(with: character)
+        
+        cell.didToggleFavorite = { [weak self, weak cell] isFavorite in
+            guard let self = self,
+                  let cell = cell,
+                  let indexPath = collectionView.indexPath(for: cell)
+            else { return }
+            
+            self.viewModel.favorite(isFavorite, 
+                                    hero: self.viewModel.heroes[indexPath.row])
+        }
+        
         return cell
     }
 }

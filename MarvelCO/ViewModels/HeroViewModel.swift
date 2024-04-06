@@ -28,4 +28,12 @@ final class HeroViewModel {
                        description: "Genius. Billionaire. Playboy. Philanthropist.",
                        thumbnail: Thumbnail(path: "https://example.com/ironman.jpg", extension: "jpg"))]
     }
+    
+    func isFavorite(_ hero: Hero) -> Bool {
+        return false
+    }
+    
+    func favorite(_ favorite: Bool, hero: Hero) {
+        
+    }
 }

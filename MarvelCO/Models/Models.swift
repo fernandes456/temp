@@ -41,4 +41,8 @@ struct Hero: Codable, Equatable {
 struct Thumbnail: Codable {
     let path: String
     let `extension`: String
+    
+    var urlString: String {
+        "\(self.path)\(self.extension)"
+    }
 }
