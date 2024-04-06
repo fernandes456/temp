@@ -7,8 +7,8 @@
 
 import Foundation
 
-struct Hero: Codable, Equatable {
-    let name: String
-    let id: Int
-    let url: URL
-}
+//struct Hero: Codable, Equatable {
+//    let name: String
+//    let id: Int
+//    let url: URL
+//}
