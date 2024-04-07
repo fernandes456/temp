@@ -10,11 +10,13 @@ import UIKit
 class HeroViewController: UIViewController {
 
     fileprivate var viewModel: HeroViewModel = HeroViewModel() // [gfsf] injetar isso
+    private var router: HeroDetailRouting?
     private lazy var heroView: HeroView = {
         let heroView = HeroView()
         heroView.setDataSourceDelegate(dataSourceDelegate: self)
         return heroView
     }()
+    
     
     override func loadView() {
         super.loadView()
@@ -24,6 +26,7 @@ class HeroViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        router = HeroDetailRouter(viewController: self)
         viewModel.reloadCollectionViewClosure = { [weak self] in
             DispatchQueue.main.async {
                 self?.heroView.reloadData()
@@ -71,4 +74,10 @@ extension HeroViewController: UICollectionViewDelegate, UICollectionViewDataSour
         
         return cell
     }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let selectedHero = viewModel.heroes[indexPath.row]
+        router?.navigateToHero(with: selectedHero)
+    }
+
 }

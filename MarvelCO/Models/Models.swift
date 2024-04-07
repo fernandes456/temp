@@ -43,6 +43,6 @@ struct Thumbnail: Codable {
     let `extension`: String
     
     var urlString: String {
-        "\(self.path)\(self.extension)"
+        "\(self.path).\(self.extension)"
     }
 }
