@@ -8,34 +8,73 @@
 import Foundation
 
 final class HeroViewModel {
-    var heroes: [Hero] = [] {
+    
+    private let listRepository: FetchProtocol
+    private let favoriteManager: FavoriteManager
+    private let isFavoriteScreen: Bool
+    var cellToUpdate: IndexPath? = nil
+    
+    init(listRepository: RepositoryProtocol,
+         favoriteManager: FavoriteManager,
+         isFavoriteScreen: Bool = false) {
+        self.listRepository = listRepository
+        self.favoriteManager = favoriteManager
+        self.isFavoriteScreen = isFavoriteScreen
+        NotificationCenter.default.addObserver(self, selector: #selector(favoritesUpdated), name: .didUpdateFavorites, object: nil)
+    }
+    
+    private var heroes: [Hero] = [] {
         didSet {
             self.reloadCollectionViewClosure?()
         }
     }
     
+    var heroesToDisplay: [Hero] {
+        isFavoriteScreen ? favoriteManager.favoriteHeroes : heroes
+    }
+
     var reloadCollectionViewClosure: (() -> Void)?
+    
+    var reloadCellClosure: ((IndexPath) -> Void)?
+    
+    var deleteCellClosure: ((IndexPath) -> Void)?
     
     func fetchHeroes() {
         
-        heroes = [Hero(id: 1,
-                       name: "Spider-Man",
-                       description: "Friendly neighborhood Spider-Man",
-                       thumbnail: Thumbnail(path: "https://assetsio.reedpopcdn.com/amspm-poster-cropped", extension: "jpg")),
-                  
-                  Hero(id: 2,
-                       name: "Iron Man",
-                       description: "Genius. Billionaire. Playboy. Philanthropist.",
-                       thumbnail: Thumbnail(path: "https://t.ctcdn.com.br/PhMSWC4JoezPaXVPDzV12EA0ZOo=/768x432/smart/i759818", extension: "jpeg"))]
-        
-        //https://t.ctcdn.com.br/PhMSWC4JoezPaXVPDzV12EA0ZOo=/768x432/smart/i759818.jpeg
+        self.listRepository.fetchHeroes(completion: { [weak self] heroes, error in
+            if let error = error {
+                print("[gfsf] deu erro: \(error)")
+                return
+            }
+            self?.heroes = heroes
+        })
     }
     
     func isFavorite(_ hero: Hero) -> Bool {
-        return false
+        return favoriteManager.isFavorite(hero)
     }
     
-    func favorite(_ favorite: Bool, hero: Hero) {
+    func toggleFavorite(_ isFavorite: Bool, hero: Hero) {
+        favoriteManager.toggleFavorite(hero: hero)
+//        if let cellToUpdate = cellToUpdate {
+//            self.reloadCellClosure?(cellToUpdate)
+//            self.cellToUpdate = nil
+//        }
+    }
+    
+    @objc func favoritesUpdated() {
         
+//        if let cellToUpdate = cellToUpdate, isFavoriteScreen == false {
+//            self.reloadCellClosure?(cellToUpdate)
+//            self.cellToUpdate = nil
+//        } else {
+//            self.reloadCollectionViewClosure?()
+//        }
+        
+        if isFavoriteScreen {
+            self.reloadCollectionViewClosure?()
+        } else if let cellToUpdate = cellToUpdate {
+            self.reloadCellClosure?(cellToUpdate)
+        }
     }
 }

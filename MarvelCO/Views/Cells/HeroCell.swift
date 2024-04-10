@@ -45,7 +45,7 @@ class HeroCell: UICollectionViewCell {
         return button
     }()
     
-    private var isFavorite: Bool = false {
+    var isFavorite: Bool = false {
         didSet {
             updateFavoriteButton()
         }
@@ -123,8 +123,11 @@ class HeroCell: UICollectionViewCell {
         updateFavoriteButton()
         nameLabel.text = hero.name
         descriptionLabel.text = hero.name
+        self.activityIndicator.startAnimating()
         task = imageView.loadImage(fromURL: hero.thumbnail.urlString) { [weak self] in
-            self?.activityIndicator.stopAnimating()
+            DispatchQueue.main.async {
+                self?.activityIndicator.stopAnimating()
+            }
         }
     }
     
@@ -136,6 +139,6 @@ class HeroCell: UICollectionViewCell {
         descriptionLabel.text = nil
         imageView.image = nil
         
-        activityIndicator.startAnimating()
+        activityIndicator.stopAnimating()
     }
 }

@@ -7,19 +7,18 @@
 
 import UIKit
 
-protocol HeroDetailRouting {
-    func navigateToHero(with hero: Hero)
-}
-
-final class HeroDetailRouter: HeroDetailRouting {
-    private weak var viewController: UIViewController?
+final class HeroDetailRouter {
+    weak var viewController: UIViewController?
+    private let favoriteManager: FavoriteManager
     
-    init(viewController: UIViewController? = nil) {
+    init(viewController: UIViewController? = nil,
+         favoriteManager: FavoriteManager) {
         self.viewController = viewController
+        self.favoriteManager = favoriteManager
     }
     
     func navigateToHero(with hero: Hero) {
-        let viewModel = HeroDetailViewModel(hero: hero)
+        let viewModel = HeroDetailViewModel(hero: hero, favoriteManager: favoriteManager)
         let detailViewController = HeroDetailViewController(viewModel: viewModel)
         viewController?.navigationController?.pushViewController(detailViewController, animated: true)
     }

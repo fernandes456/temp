@@ -9,9 +9,11 @@ import Foundation
 
 final class HeroDetailViewModel {
     let hero: Hero
+    private let favoriteManager: FavoriteManager
     
-    init(hero: Hero) {
+    init(hero: Hero, favoriteManager: FavoriteManager) {
         self.hero = hero
+        self.favoriteManager = favoriteManager
     }
     
     var name: String {
@@ -24,5 +26,13 @@ final class HeroDetailViewModel {
     
     var imageUrl: String {
         hero.thumbnail.urlString
+    }
+    var isFavorite: Bool {
+        favoriteManager.isFavorite(hero)
+    }
+    
+    func toogleFavorite() {
+        favoriteManager.toggleFavorite(hero: hero)
+        // [gfsf] update view
     }
 }

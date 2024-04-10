@@ -9,14 +9,22 @@ import UIKit
 
 class HeroViewController: UIViewController {
 
-    fileprivate var viewModel: HeroViewModel = HeroViewModel() // [gfsf] injetar isso
-    private var router: HeroDetailRouting?
+    fileprivate var viewModel: HeroViewModel
+    var router: HeroDetailRouter?
     private lazy var heroView: HeroView = {
         let heroView = HeroView()
         heroView.setDataSourceDelegate(dataSourceDelegate: self)
         return heroView
     }()
     
+    init(viewModel: HeroViewModel) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func loadView() {
         super.loadView()
@@ -26,41 +34,47 @@ class HeroViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        router = HeroDetailRouter(viewController: self)
         viewModel.reloadCollectionViewClosure = { [weak self] in
             DispatchQueue.main.async {
                 self?.heroView.reloadData()
+            }
+        }
+        
+        viewModel.reloadCellClosure = {[weak self] indexPath in
+            DispatchQueue.main.async {
+                self?.heroView.reloadCell(indexPath: indexPath)
+            }
+        }
+        
+        // [gfsf] apagar
+        viewModel.deleteCellClosure = {[weak self] indexPath in
+            DispatchQueue.main.async {
+                self?.heroView.deleteCell(at: indexPath)
             }
         }
 
         viewModel.fetchHeroes()
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+//        viewModel.fetchHeroes()
     }
-    */
-
 }
 
 extension HeroViewController: UICollectionViewDelegate, UICollectionViewDataSource {
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return viewModel.heroes.count
+        return viewModel.heroesToDisplay.count
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "HeroCell", for: indexPath) as? HeroCell else {
             return UICollectionViewCell()
         }
-        let character = viewModel.heroes[indexPath.item]
-        cell.configure(with: character)
+        let hero = viewModel.heroesToDisplay[indexPath.item]
+        cell.configure(with: hero)
+        cell.isFavorite = viewModel.isFavorite(hero)
         
         cell.didToggleFavorite = { [weak self, weak cell] isFavorite in
             guard let self = self,
@@ -68,15 +82,17 @@ extension HeroViewController: UICollectionViewDelegate, UICollectionViewDataSour
                   let indexPath = collectionView.indexPath(for: cell)
             else { return }
             
-            self.viewModel.favorite(isFavorite, 
-                                    hero: self.viewModel.heroes[indexPath.row])
+            self.viewModel.cellToUpdate = indexPath
+            self.viewModel.toggleFavorite(isFavorite,
+                                    hero: self.viewModel.heroesToDisplay[indexPath.row])
+            
         }
         
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let selectedHero = viewModel.heroes[indexPath.row]
+        let selectedHero = viewModel.heroesToDisplay[indexPath.row]
         router?.navigateToHero(with: selectedHero)
     }
 
