@@ -8,7 +8,7 @@
 import UIKit
 
 final class HeroDetailRouter {
-    weak var viewController: UIViewController?
+    private weak var viewController: UIViewController?
     private let favoriteManager: FavoriteManager
     
     init(viewController: UIViewController? = nil,

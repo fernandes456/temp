@@ -63,18 +63,6 @@ final class HeroViewModel {
     }
     
     @objc func favoritesUpdated() {
-        
-//        if let cellToUpdate = cellToUpdate, isFavoriteScreen == false {
-//            self.reloadCellClosure?(cellToUpdate)
-//            self.cellToUpdate = nil
-//        } else {
-//            self.reloadCollectionViewClosure?()
-//        }
-        
-        if isFavoriteScreen {
-            self.reloadCollectionViewClosure?()
-        } else if let cellToUpdate = cellToUpdate {
-            self.reloadCellClosure?(cellToUpdate)
-        }
+        self.reloadCollectionViewClosure?()
     }
 }

@@ -18,8 +18,6 @@ class TabBarController: UITabBarController {
         
         let viewModel = HeroViewModel(listRepository: networkRepository, favoriteManager: favoriteManager)
         
-        
-        
         let allHeroesViewController = HeroViewController(viewModel: viewModel)
         allHeroesViewController.tabBarItem = UITabBarItem(title: "Todos", image: UIImage(systemName: "smallcircle.circle.fill"), tag: 0)
         let router = HeroDetailRouter(viewController: allHeroesViewController, favoriteManager: favoriteManager)

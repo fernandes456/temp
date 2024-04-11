@@ -9,7 +9,7 @@ import UIKit
 
 class HeroView: UIView {
     
-    private lazy var collectionView: UICollectionView = {
+    private(set) lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.itemSize = CGSize(width: 150, height: 300)
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)

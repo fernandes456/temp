@@ -33,7 +33,8 @@ final class HeroDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        heroDetailView.configureView(hero: viewModel.hero)
+        heroDetailView.configureView(hero: viewModel.hero, 
+                                     isFavorite: viewModel.isFavorite)
     }
 }
 
@@ -42,5 +43,10 @@ extension HeroDetailViewController: HeroDetailViewDelegate {
         let activityViewController = UIActivityViewController(activityItems: [image], applicationActivities: nil)
 
         present(activityViewController, animated: true, completion: nil)
+    }
+    
+    func toogleFavorite() {
+        self.viewModel.toogleFavorite()
+        heroDetailView.configureFavorite(viewModel.isFavorite)
     }
 }

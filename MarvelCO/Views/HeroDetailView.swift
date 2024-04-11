@@ -9,6 +9,7 @@ import UIKit
 
 protocol HeroDetailViewDelegate: NSObject {
     func shareImage(_ image: UIImage)
+    func toogleFavorite()
 }
 
 final class HeroDetailView: UIView {
@@ -45,7 +46,7 @@ final class HeroDetailView: UIView {
     private lazy var favoriteButton: UIButton = {
         let button = UIButton(type: .system)
 //        let imageName = isFavorite ? "heart.fill" : "heart"
-        button.setImage(UIImage(systemName: "heart.fill"), for: .normal)
+        button.setImage(UIImage(systemName: "heart"), for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.addTarget(self, action: #selector(toggleFavorite), for: .touchUpInside)
         return button
@@ -117,16 +118,7 @@ final class HeroDetailView: UIView {
     }
     
     @objc private func toggleFavorite() {
-//        isFavorite.toggle()
-        
-        // [gfsf] explicar isso aqui
-        let animation = CAKeyframeAnimation(keyPath: "transform.scale")
-        animation.values = [1.0, 1.2, 1.0]
-        animation.keyTimes = [0, 0.5, 1]
-        animation.duration = 0.3
-        favoriteButton.layer.add(animation, forKey: nil)
-        
-//        didToggleFavorite?(isFavorite)
+        self.delegate?.toogleFavorite()
     }
     
     @objc private func sharedTapped() {
@@ -135,12 +127,26 @@ final class HeroDetailView: UIView {
         }
     }
     
-    func configureView(hero: Hero) {
+    func configureView(hero: Hero, isFavorite: Bool) {
         imageView.loadImage(fromURL: hero.thumbnail.urlString) {
             
         }
         
         nameLabel.text = hero.name
         descriptionLabel.text = hero.description
+        configureFavorite(isFavorite)
+    }
+    
+    func configureFavorite(_ isFavorite: Bool) {
+        let imageName = isFavorite ? "heart.fill" : "heart"
+        favoriteButton.setImage(UIImage(systemName: imageName), for: .normal)
+        
+        // [gfsf] explicar isso aqui
+        let animation = CAKeyframeAnimation(keyPath: "transform.scale")
+        animation.values = [1.0, 1.2, 1.0]
+        animation.keyTimes = [0, 0.5, 1]
+        animation.duration = 0.3
+        favoriteButton.layer.add(animation, forKey: nil)
+
     }
 }
