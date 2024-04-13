@@ -2,7 +2,7 @@
 //  FavoriteHero+CoreDataProperties.swift
 //  MarvelCO
 //
-//  Created by Geraldo Fernandes on 07/04/24.
+//  Created by Geraldo Fernandes on 11/04/24.
 //
 //
 
@@ -11,12 +11,14 @@ import CoreData
 
 
 extension FavoriteHero {
-    
-    @nonobjc func fetchRequest() -> NSFetchRequest<FavoriteHero> {
+
+    @nonobjc public class func fetchRequest() -> NSFetchRequest<FavoriteHero> {
         return NSFetchRequest<FavoriteHero>(entityName: "FavoriteHero")
     }
 
     @NSManaged public var heroId: Int32
+    @NSManaged public var heroName: String?
+    @NSManaged public var heroDescription: String?
 
 }
 
