@@ -13,8 +13,8 @@ class TabBarController: UITabBarController {
         super.viewDidLoad()
 
         let networkRepository = NetworkRepository()
-        let memoryRepository = MemoryRepository()
-        let favoriteManager = FavoriteManager(localDataRepository: memoryRepository)
+        let coredataRepository = CoreDataRepository()
+        let favoriteManager = FavoriteManager(repository: coredataRepository)
         
         let viewModel = HeroViewModel(listRepository: networkRepository, favoriteManager: favoriteManager)
         
@@ -23,7 +23,7 @@ class TabBarController: UITabBarController {
         let router = HeroDetailRouter(viewController: allHeroesViewController, favoriteManager: favoriteManager)
         allHeroesViewController.router = router
         
-        let favoriteViewModel = HeroViewModel(listRepository: memoryRepository, favoriteManager: favoriteManager, isFavoriteScreen: true)
+        let favoriteViewModel = HeroViewModel(listRepository: networkRepository, favoriteManager: favoriteManager, isFavoriteScreen: true)
         let favoriteHeroesHeroesViewController = HeroViewController(viewModel: favoriteViewModel)
         favoriteHeroesHeroesViewController.tabBarItem = UITabBarItem(title: "Favoritos", image: UIImage(systemName: "star.fill"), tag: 1)
         let favoriteRouter = HeroDetailRouter(viewController: favoriteHeroesHeroesViewController, favoriteManager: favoriteManager)

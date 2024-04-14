@@ -8,12 +8,10 @@
 import Foundation
 
 final class FavoriteHeroViewModel {
-    private let localDataRepository: RepositoryProtocol
     private let favotiteManager: FavoriteManager
     
-    init(localDataRepository: RepositoryProtocol) {
-        self.localDataRepository = localDataRepository
-        self.favotiteManager = FavoriteManager(localDataRepository: localDataRepository)
+    init() {
+        self.favotiteManager = FavoriteManager()
     }
     
     var heroes: [Hero] = [] {
@@ -28,13 +26,6 @@ final class FavoriteHeroViewModel {
         favotiteManager.fetchFavoriteHeroes { [weak self] heroes in
             self?.heroes = heroes
         }
-//        self.localDataRepository.fetchHeroes { [weak self] heroes, error in
-//            if let error = error {
-//                print("[gfsf] deu erro: \(error)")
-//                return
-//            }
-//            self?.heroes = heroes
-//        }
     }
     
     func isFavorite(_ hero: Hero) -> Bool {

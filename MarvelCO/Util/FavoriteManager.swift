@@ -9,12 +9,10 @@ import Foundation
 
 class FavoriteManager: FetchProtocol {
     
-    private let localDataRepository: RepositoryProtocol
     private let repository: FavoriteProtocol
     
-    init(localDataRepository: RepositoryProtocol) {
-        self.localDataRepository = localDataRepository
-        self.repository = CoreDataRepository()
+    init(repository: FavoriteProtocol = CoreDataRepository()) {
+        self.repository = repository
     }
     
     var favoriteHeroes = [Hero]()

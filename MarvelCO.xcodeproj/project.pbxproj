@@ -15,7 +15,6 @@
 		8A2F397A2BC3461B00487630 /* FavoriteHero+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A2F39782BC3461B00487630 /* FavoriteHero+CoreDataClass.swift */; };
 		8A2F397B2BC3461B00487630 /* FavoriteHero+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A2F39792BC3461B00487630 /* FavoriteHero+CoreDataProperties.swift */; };
 		8A2F397D2BC34A7400487630 /* FavoriteHeroViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A2F397C2BC34A7400487630 /* FavoriteHeroViewModel.swift */; };
-		8A2F397F2BC3661100487630 /* MemoryRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A2F397E2BC3661100487630 /* MemoryRepository.swift */; };
 		8A2F39812BC3662900487630 /* NetworkRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A2F39802BC3662900487630 /* NetworkRepository.swift */; };
 		8A2F39832BC3688300487630 /* RepositoryProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A2F39822BC3688300487630 /* RepositoryProtocol.swift */; };
 		8A2F39852BC36E6900487630 /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A2F39842BC36E6900487630 /* StringExtension.swift */; };
@@ -70,7 +69,6 @@
 		8A2F39782BC3461B00487630 /* FavoriteHero+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FavoriteHero+CoreDataClass.swift"; sourceTree = "<group>"; };
 		8A2F39792BC3461B00487630 /* FavoriteHero+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FavoriteHero+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		8A2F397C2BC34A7400487630 /* FavoriteHeroViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteHeroViewModel.swift; sourceTree = "<group>"; };
-		8A2F397E2BC3661100487630 /* MemoryRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoryRepository.swift; sourceTree = "<group>"; };
 		8A2F39802BC3662900487630 /* NetworkRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkRepository.swift; sourceTree = "<group>"; };
 		8A2F39822BC3688300487630 /* RepositoryProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepositoryProtocol.swift; sourceTree = "<group>"; };
 		8A2F39842BC36E6900487630 /* StringExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
@@ -141,7 +139,6 @@
 			children = (
 				8A2F396B2BC33FF800487630 /* DataModel */,
 				8A2F39642BC33EB700487630 /* CoreDataRepository.swift */,
-				8A2F397E2BC3661100487630 /* MemoryRepository.swift */,
 				8A2F39802BC3662900487630 /* NetworkRepository.swift */,
 				8A2F39822BC3688300487630 /* RepositoryProtocol.swift */,
 			);
@@ -440,7 +437,6 @@
 				8A064F462BC2114F005C7164 /* HeroDetailViewController.swift in Sources */,
 				8A2F398A2BC49BF700487630 /* Observable.swift in Sources */,
 				8AD19FD02BC1B2C8009FC4AB /* HeroCell.swift in Sources */,
-				8A2F397F2BC3661100487630 /* MemoryRepository.swift in Sources */,
 				8AD19FD32BC1D95B009FC4AB /* UIImageViewExtension.swift in Sources */,
 				8A064F482BC2123C005C7164 /* HeroDetailView.swift in Sources */,
 				8A500AC62BBE1E870068A07D /* Hero.swift in Sources */,
