@@ -8,8 +8,8 @@
 import Foundation
 
 class NetworkRepository: RepositoryProtocol {
-
-    func fetchHeroes(completion: @escaping ([Hero], Error?) -> Void) {
+    
+    func fetchHeroes(nameStartsWith: String, completion: @escaping ([Hero], Error?) -> Void) {
         
         let publicKey = "9ebdb359fe98d87d0e7a07873a293272"
         let privateKey = "6a26d3ea02635fe645160b6908ae2a7e8478ab24"
@@ -17,11 +17,16 @@ class NetworkRepository: RepositoryProtocol {
         let hash = (timestamp + privateKey + publicKey).md5
 
         let baseUrl = "https://gateway.marvel.com:443/v1/public/characters"
-        let queryItems = [
+        var queryItems = [
             URLQueryItem(name: "ts", value: timestamp),
             URLQueryItem(name: "apikey", value: publicKey),
-            URLQueryItem(name: "hash", value: hash)
+            URLQueryItem(name: "hash", value: hash),
         ]
+        
+        if nameStartsWith.isEmpty == false {
+            queryItems.append(URLQueryItem(name: "nameStartsWith", value: nameStartsWith))
+            
+        }
         
         var urlComponents = URLComponents(string: baseUrl)
         urlComponents?.queryItems = queryItems

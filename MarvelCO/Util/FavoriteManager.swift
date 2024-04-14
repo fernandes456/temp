@@ -15,12 +15,11 @@ class FavoriteManager: FetchProtocol {
     init(localDataRepository: RepositoryProtocol) {
         self.localDataRepository = localDataRepository
         self.repository = CoreDataRepository()
-        repository.deleteAllFavoriteHeroes()
     }
     
     var favoriteHeroes = [Hero]()
     
-    func fetchHeroes(completion: @escaping ([Hero], Error?) -> Void) {
+    func fetchHeroes(nameStartsWith: String, completion: @escaping ([Hero], Error?) -> Void) {
         self.repository.fetchFavorite { [weak self] heroes in
             self?.favoriteHeroes = heroes
             completion(heroes, nil)

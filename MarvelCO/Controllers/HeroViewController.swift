@@ -14,6 +14,7 @@ class HeroViewController: UIViewController {
     private lazy var heroView: HeroView = {
         let heroView = HeroView()
         heroView.setDataSourceDelegate(dataSourceDelegate: self)
+        heroView.delegate = self
         return heroView
     }()
     
@@ -43,6 +44,8 @@ class HeroViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        heroView.showSearchBar(viewModel.shouldDisplaySerachBar())
 
         viewModel.reloadCollectionViewClosure = { [weak self] in
             DispatchQueue.main.async {
@@ -106,5 +109,12 @@ extension HeroViewController: UICollectionViewDelegate, UICollectionViewDataSour
 extension HeroViewController: ErrorViewDelegate {
     func retry() {
         self.viewModel.fetchHeroes()
+    }
+}
+
+
+extension HeroViewController: HeroViewDelegate {
+    func searchFor(_ text: String?) {
+        self.viewModel.fetchHeroes(nameStartsWith: text ?? "")
     }
 }

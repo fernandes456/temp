@@ -25,7 +25,7 @@ class MemoryRepository: RepositoryProtocol {
 //                               description: "Genius. Bla bla bla.",
 //                               thumbnail: Thumbnail(path: "https://static1.squarespace.com/static/52a86cb9e4b098a46d38a18c/57220cbf27d4bd9f8070f9f6/63efe7044813e64d9860348d/1676666800218/ant-man-fan-art-tony-santiago", extension: "jpg"))]
     
-    func fetchHeroes(completion: @escaping ([Hero], Error?) -> Void) {
+    func fetchHeroes(nameStartsWith: String, completion: @escaping ([Hero], Error?) -> Void) {
         completion(heroes, nil)
     }
     

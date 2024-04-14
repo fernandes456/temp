@@ -39,7 +39,7 @@ final class HeroViewModel {
     
     var showErrorView: ((String) -> Void)?
     
-    func fetchHeroes() {
+    func fetchHeroes(nameStartsWith: String = "") {
         
         if isFavoriteScreen {
             self.favoriteManager.fetchFavoriteHeroes { [weak self] heroes in
@@ -49,7 +49,7 @@ final class HeroViewModel {
                 }
             }
         } else {
-            self.listRepository.fetchHeroes(completion: { [weak self] heroes, error in
+            self.listRepository.fetchHeroes(nameStartsWith: nameStartsWith, completion: { [weak self] heroes, error in
                 if let error = error {
                     print("[gfsf] deu erro: \(error)")
                     self?.showErrorView?("Ocorreu um erro")
@@ -66,6 +66,10 @@ final class HeroViewModel {
     
     func toggleFavorite(_ isFavorite: Bool, hero: Hero) {
         favoriteManager.toggleFavorite(hero: hero)
+    }
+    
+    func shouldDisplaySerachBar() -> Bool {
+        return !isFavoriteScreen
     }
     
     @objc func favoritesUpdated() {
