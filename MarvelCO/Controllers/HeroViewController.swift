@@ -9,7 +9,7 @@ import UIKit
 
 class HeroViewController: UIViewController {
 
-    fileprivate var viewModel: HeroViewModel
+    fileprivate var viewModel: HeroViewModelProtocol
     var router: HeroDetailRouter?
     private lazy var heroView: HeroView = {
         let heroView = HeroView()
@@ -26,7 +26,7 @@ class HeroViewController: UIViewController {
         return view
     }()
     
-    init(viewModel: HeroViewModel) {
+    init(viewModel: HeroViewModelProtocol) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
@@ -51,12 +51,6 @@ class HeroViewController: UIViewController {
             DispatchQueue.main.async {
                 self?.errorView.isHidden = true
                 self?.heroView.reloadData()
-            }
-        }
-        
-        viewModel.reloadCellClosure = {[weak self] indexPath in
-            DispatchQueue.main.async {
-                self?.heroView.reloadCell(indexPath: indexPath)
             }
         }
         
@@ -91,9 +85,7 @@ extension HeroViewController: UICollectionViewDelegate, UICollectionViewDataSour
                   let indexPath = collectionView.indexPath(for: cell)
             else { return }
             
-            self.viewModel.cellToUpdate = indexPath
-            self.viewModel.toggleFavorite(isFavorite,
-                                    hero: self.viewModel.heroesToDisplay[indexPath.row])
+            self.viewModel.toggleFavorite(hero: self.viewModel.heroesToDisplay[indexPath.row])
             
         }
         

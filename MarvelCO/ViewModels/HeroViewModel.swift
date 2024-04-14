@@ -7,12 +7,29 @@
 
 import Foundation
 
-final class HeroViewModel {
+protocol HeroViewModelProtocol: AnyObject {
+    var heroesToDisplay: [Hero] { get }
+    var reloadCollectionViewClosure: (() -> Void)? { get set }
+    var showErrorView: ((String) -> Void)? { get set }
+    
+    func fetchHeroes(nameStartsWith: String)
+    
+    func isFavorite(_ hero: Hero) -> Bool
+    func toggleFavorite(hero: Hero)
+    func shouldDisplaySerachBar() -> Bool
+}
+
+extension HeroViewModelProtocol {
+    func fetchHeroes() {
+        fetchHeroes(nameStartsWith: "")
+    }
+}
+
+final class HeroViewModel: HeroViewModelProtocol {
     
     private let listRepository: FetchProtocol
     private let favoriteManager: FavoriteManager
     private let isFavoriteScreen: Bool
-    var cellToUpdate: IndexPath? = nil
     
     init(listRepository: RepositoryProtocol,
          favoriteManager: FavoriteManager,
@@ -34,8 +51,6 @@ final class HeroViewModel {
     }
 
     var reloadCollectionViewClosure: (() -> Void)?
-    
-    var reloadCellClosure: ((IndexPath) -> Void)?
     
     var showErrorView: ((String) -> Void)?
     
@@ -64,7 +79,7 @@ final class HeroViewModel {
         return favoriteManager.isFavorite(hero)
     }
     
-    func toggleFavorite(_ isFavorite: Bool, hero: Hero) {
+    func toggleFavorite(hero: Hero) {
         favoriteManager.toggleFavorite(hero: hero)
     }
     

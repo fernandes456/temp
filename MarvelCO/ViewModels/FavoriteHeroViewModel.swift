@@ -7,33 +7,57 @@
 
 import Foundation
 
-final class FavoriteHeroViewModel {
-    private let favotiteManager: FavoriteManager
+final class FavoriteHeroViewModel: HeroViewModelProtocol {
+    private let favoriteManager: FavoriteManager
     
-    init() {
-        self.favotiteManager = FavoriteManager()
+    init(favoriteManager: FavoriteManager) {
+        self.favoriteManager = favoriteManager
+        NotificationCenter.default.addObserver(self, selector: #selector(favoritesUpdated), name: .didUpdateFavorites, object: nil)
     }
     
-    var heroes: [Hero] = [] {
+    private var heroes: [Hero] = [] {
         didSet {
             self.reloadCollectionViewClosure?()
         }
     }
+    
+    var heroesToDisplay: [Hero] {
+        favoriteManager.favoriteHeroes
+    }
 
     var reloadCollectionViewClosure: (() -> Void)?
     
-    func fetchHeroes() {
-        favotiteManager.fetchFavoriteHeroes { [weak self] heroes in
+    var showErrorView: ((String) -> Void)?
+    
+    func fetchHeroes(nameStartsWith: String = "") {
+        self.favoriteManager.fetchFavoriteHeroes { [weak self] heroes in
             self?.heroes = heroes
+            if heroes.count == 0 {
+                self?.showErrorView?("Não há heróis")
+            }
         }
     }
     
     func isFavorite(_ hero: Hero) -> Bool {
-        return favotiteManager.isFavorite(hero)
+        return favoriteManager.isFavorite(hero)
     }
     
-    // [gfsf] remover o bool
-    func toggleFavorite(_ isFavorite: Bool, hero: Hero) {
-        favotiteManager.toggleFavorite(hero: hero)
+    func toggleFavorite(hero: Hero) {
+        favoriteManager.toggleFavorite(hero: hero)
+    }
+    
+    func shouldDisplaySerachBar() -> Bool {
+        return false
+    }
+    
+    @objc func favoritesUpdated() {
+        self.favoriteManager.fetchFavoriteHeroes { [weak self] heroes in
+            self?.heroes = heroes
+            if heroes.count == 0 {
+                self?.showErrorView?("Não há heróis")
+            } else {
+                self?.reloadCollectionViewClosure?()
+            }
+        }
     }
 }
