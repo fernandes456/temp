@@ -94,18 +94,14 @@ final class ViewModelTests: XCTestCase {
     }
 }
 
-class SpyRepository: RepositoryProtocol {
+class SpyRepository: FetchProtocol {
     var error: Error? = nil
     var heroes: [Hero] = []
     
     func fetchHeroes(nameStartsWith: String, completion: @escaping ([MarvelCO.Hero], Error?) -> Void) {
         completion(heroes, error)
     }
-    
-    func saveHeroes(_ heroes: [MarvelCO.Hero], completion: @escaping (Error?) -> Void) {
-        // [gfsf] apagar
-    }
-    
+
     func complete(with error: Error) {
         self.error = error
     }

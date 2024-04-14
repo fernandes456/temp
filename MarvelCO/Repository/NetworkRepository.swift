@@ -7,7 +7,7 @@
 
 import Foundation
 
-class NetworkRepository: RepositoryProtocol {
+class NetworkRepository: FetchProtocol {
     
     func fetchHeroes(nameStartsWith: String, completion: @escaping ([Hero], Error?) -> Void) {
         
@@ -51,9 +51,5 @@ class NetworkRepository: RepositoryProtocol {
             }
         }
         task.resume()
-    }
-    
-    func saveHeroes(_ heroes: [Hero], completion: @escaping (Error?) -> Void) {
-        
     }
 }

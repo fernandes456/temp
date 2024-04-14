@@ -12,7 +12,6 @@ func makeHero(name: String, id: Int) -> (hero: Hero, json: [String: Any]) {
     let (thumbnail, thumbnailJson) = makeThumbnail()
     let hero = Hero(id: id, name: name, description: "A description", thumbnail: thumbnail)
     
-    // [gfsf] explicar exatamente o que isso aqui faz
     let heroJson = [
         "id": hero.id,
         "name": hero.name,

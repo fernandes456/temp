@@ -42,13 +42,6 @@ final class HeroDetailView: UIView {
         return label
     }()
     
-    private lazy var activityIndicator: UIActivityIndicatorView = {
-        let activityIndicator = UIActivityIndicatorView(style: .medium)
-        activityIndicator.center = self.center
-        activityIndicator.translatesAutoresizingMaskIntoConstraints = false
-        return activityIndicator
-    }()
-    
     private lazy var favoriteButton: UIButton = {
         let button = UIButton(type: .system)
         button.accessibilityIdentifier = "favoriteButtonIdentifier"
@@ -87,7 +80,6 @@ final class HeroDetailView: UIView {
         self.addSubview(nameLabel)
         self.addSubview(descriptionLabel)
         self.addSubview(imageView)
-//        self.addSubview(activityIndicator)
         self.addSubview(favoriteButton)
         self.addSubview(shareButton)
     }
@@ -108,9 +100,6 @@ final class HeroDetailView: UIView {
             descriptionLabel.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor, constant: MARGIN_OFFSET),
             descriptionLabel.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor, constant: -MARGIN_OFFSET),
             descriptionLabel.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor),
-            
-//            activityIndicator.centerXAnchor.constraint(equalTo: self.centerXAnchor),
-//            activityIndicator.centerYAnchor.constraint(equalTo: self.centerYAnchor),
             
             favoriteButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10),
             favoriteButton.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor, constant: 10),

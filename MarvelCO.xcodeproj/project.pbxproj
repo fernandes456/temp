@@ -31,7 +31,6 @@
 		8A500AAC2BBE1C6F0068A07D /* MarvelCOTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A500AAB2BBE1C6F0068A07D /* MarvelCOTests.swift */; };
 		8A500AB62BBE1C6F0068A07D /* MarvelCOUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A500AB52BBE1C6F0068A07D /* MarvelCOUITests.swift */; };
 		8A500AB82BBE1C6F0068A07D /* MarvelCOUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A500AB72BBE1C6F0068A07D /* MarvelCOUITestsLaunchTests.swift */; };
-		8A500AC62BBE1E870068A07D /* Hero.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A500AC52BBE1E870068A07D /* Hero.swift */; };
 		8A88B16A2BCC235F0007F620 /* ErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A88B1692BCC235F0007F620 /* ErrorView.swift */; };
 		8A88B16C2BCC61EF0007F620 /* ViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A88B16B2BCC61EF0007F620 /* ViewModelTests.swift */; };
 		8A88B16E2BCC6A110007F620 /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A88B16D2BCC6A110007F620 /* Util.swift */; };
@@ -91,7 +90,6 @@
 		8A500AB12BBE1C6F0068A07D /* MarvelCOUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MarvelCOUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8A500AB52BBE1C6F0068A07D /* MarvelCOUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarvelCOUITests.swift; sourceTree = "<group>"; };
 		8A500AB72BBE1C6F0068A07D /* MarvelCOUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarvelCOUITestsLaunchTests.swift; sourceTree = "<group>"; };
-		8A500AC52BBE1E870068A07D /* Hero.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Hero.swift; sourceTree = "<group>"; };
 		8A88B1692BCC235F0007F620 /* ErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorView.swift; sourceTree = "<group>"; };
 		8A88B16B2BCC61EF0007F620 /* ViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelTests.swift; sourceTree = "<group>"; };
 		8A88B16D2BCC6A110007F620 /* Util.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Util.swift; sourceTree = "<group>"; };
@@ -233,7 +231,6 @@
 		8A500AC42BBE1E530068A07D /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				8A500AC52BBE1E870068A07D /* Hero.swift */,
 				8AD19FC32BC1A401009FC4AB /* Models.swift */,
 			);
 			path = Models;
@@ -445,7 +442,6 @@
 				8AD19FD02BC1B2C8009FC4AB /* HeroCell.swift in Sources */,
 				8AD19FD32BC1D95B009FC4AB /* UIImageViewExtension.swift in Sources */,
 				8A064F482BC2123C005C7164 /* HeroDetailView.swift in Sources */,
-				8A500AC62BBE1E870068A07D /* Hero.swift in Sources */,
 				8A2F39832BC3688300487630 /* RepositoryProtocol.swift in Sources */,
 				8A2F397B2BC3461B00487630 /* FavoriteHero+CoreDataProperties.swift in Sources */,
 				8A2F397D2BC34A7400487630 /* FavoriteHeroViewModel.swift in Sources */,

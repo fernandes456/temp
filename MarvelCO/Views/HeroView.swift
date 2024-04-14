@@ -63,9 +63,7 @@ class HeroView: UIView {
             searchTextField.leftAnchor.constraint(equalTo: safeAreaLayoutGuide.leftAnchor),
             searchTextField.rightAnchor.constraint(equalTo: safeAreaLayoutGuide.rightAnchor),
             searchTextField.heightAnchor.constraint(equalToConstant: 44),
-//            searchTextField.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor),
-            
-//            collectionView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
+
             collectionView.topAnchor.constraint(equalTo: searchTextField.bottomAnchor),
             collectionView.topAnchor.constraint(equalTo: searchTextField.bottomAnchor),
             collectionView.leftAnchor.constraint(equalTo: safeAreaLayoutGuide.leftAnchor),

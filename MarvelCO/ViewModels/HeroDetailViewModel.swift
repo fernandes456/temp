@@ -33,6 +33,5 @@ final class HeroDetailViewModel {
     
     func toogleFavorite() {
         favoriteManager.toggleFavorite(hero: hero)
-        // [gfsf] update view
     }
 }

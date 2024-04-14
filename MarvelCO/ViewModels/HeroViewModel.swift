@@ -30,7 +30,7 @@ final class HeroViewModel: HeroViewModelProtocol {
     private let listRepository: FetchProtocol
     private let favoriteManager: FavoriteManager
     
-    init(listRepository: RepositoryProtocol,
+    init(listRepository: FetchProtocol,
          favoriteManager: FavoriteManager) {
         self.listRepository = listRepository
         self.favoriteManager = favoriteManager
@@ -58,7 +58,7 @@ final class HeroViewModel: HeroViewModelProtocol {
     func fetchHeroes(nameStartsWith: String = "") {
         self.listRepository.fetchHeroes(nameStartsWith: nameStartsWith, completion: { [weak self] heroes, error in
             if let error = error {
-                print("[gfsf] deu erro: \(error)")
+                print("Erro: \(error)")
                 self?.showErrorView?("Ocorreu um erro")
                 return
             }
