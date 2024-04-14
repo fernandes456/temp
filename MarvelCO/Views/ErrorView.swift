@@ -60,7 +60,7 @@ class ErrorView: UIView {
         superView.addSubview(self)
         
         NSLayoutConstraint.activate([
-            topAnchor.constraint(equalTo: superView.safeAreaLayoutGuide.topAnchor),
+            topAnchor.constraint(equalTo: superView.safeAreaLayoutGuide.topAnchor, constant: 44),
             leadingAnchor.constraint(equalTo: superView.leadingAnchor),
             trailingAnchor.constraint(equalTo: superView.trailingAnchor),
             bottomAnchor.constraint(equalTo: superView.safeAreaLayoutGuide.bottomAnchor)

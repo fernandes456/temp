@@ -29,25 +29,26 @@ final class HeroViewModel: HeroViewModelProtocol {
     
     private let listRepository: FetchProtocol
     private let favoriteManager: FavoriteManager
-    private let isFavoriteScreen: Bool
     
     init(listRepository: RepositoryProtocol,
-         favoriteManager: FavoriteManager,
-         isFavoriteScreen: Bool = false) {
+         favoriteManager: FavoriteManager) {
         self.listRepository = listRepository
         self.favoriteManager = favoriteManager
-        self.isFavoriteScreen = isFavoriteScreen
         NotificationCenter.default.addObserver(self, selector: #selector(favoritesUpdated), name: .didUpdateFavorites, object: nil)
     }
     
     private var heroes: [Hero] = [] {
         didSet {
-            self.reloadCollectionViewClosure?()
+            if heroes.count == 0 {
+                self.showErrorView?("Lista vazia")
+            } else {
+                self.reloadCollectionViewClosure?()
+            }
         }
     }
     
     var heroesToDisplay: [Hero] {
-        isFavoriteScreen ? favoriteManager.favoriteHeroes : heroes
+        heroes
     }
 
     var reloadCollectionViewClosure: (() -> Void)?
@@ -55,24 +56,14 @@ final class HeroViewModel: HeroViewModelProtocol {
     var showErrorView: ((String) -> Void)?
     
     func fetchHeroes(nameStartsWith: String = "") {
-        
-        if isFavoriteScreen {
-            self.favoriteManager.fetchFavoriteHeroes { [weak self] heroes in
-                self?.heroes = heroes
-                if heroes.count == 0 {
-                    self?.showErrorView?("Não há heróis")
-                }
+        self.listRepository.fetchHeroes(nameStartsWith: nameStartsWith, completion: { [weak self] heroes, error in
+            if let error = error {
+                print("[gfsf] deu erro: \(error)")
+                self?.showErrorView?("Ocorreu um erro")
+                return
             }
-        } else {
-            self.listRepository.fetchHeroes(nameStartsWith: nameStartsWith, completion: { [weak self] heroes, error in
-                if let error = error {
-                    print("[gfsf] deu erro: \(error)")
-                    self?.showErrorView?("Ocorreu um erro")
-                    return
-                }
-                self?.heroes = heroes
-            })
-        }
+            self?.heroes = heroes
+        })
     }
     
     func isFavorite(_ hero: Hero) -> Bool {
@@ -84,21 +75,10 @@ final class HeroViewModel: HeroViewModelProtocol {
     }
     
     func shouldDisplaySerachBar() -> Bool {
-        return !isFavoriteScreen
+        return true
     }
     
     @objc func favoritesUpdated() {
-        if isFavoriteScreen {
-            self.favoriteManager.fetchFavoriteHeroes { [weak self] heroes in
-                self?.heroes = heroes
-                if heroes.count == 0 {
-                    self?.showErrorView?("Não há heróis")
-                } else {
-                    self?.reloadCollectionViewClosure?()
-                }
-            }
-        } else {
-            self.reloadCollectionViewClosure?()
-        }
+        self.reloadCollectionViewClosure?()
     }
 }

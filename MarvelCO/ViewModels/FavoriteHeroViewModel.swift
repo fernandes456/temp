@@ -17,7 +17,11 @@ final class FavoriteHeroViewModel: HeroViewModelProtocol {
     
     private var heroes: [Hero] = [] {
         didSet {
-            self.reloadCollectionViewClosure?()
+            if heroes.count == 0 {
+                self.showErrorView?("Lista vazia")
+            } else {
+                self.reloadCollectionViewClosure?()
+            }
         }
     }
     
