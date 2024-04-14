@@ -13,6 +13,8 @@ protocol HeroDetailViewDelegate: NSObject {
 }
 
 final class HeroDetailView: UIView {
+    
+    private let MARGIN_OFFSET: CGFloat = 10
 
     weak var delegate: HeroDetailViewDelegate?
     
@@ -26,12 +28,15 @@ final class HeroDetailView: UIView {
     
     private lazy var nameLabel: UILabel = {
         let label = UILabel()
+        label.numberOfLines = 2
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     private lazy var descriptionLabel: UILabel = {
         let label = UILabel()
+        label.numberOfLines = 0
+        label.lineBreakMode = .byWordWrapping
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -45,7 +50,6 @@ final class HeroDetailView: UIView {
     
     private lazy var favoriteButton: UIButton = {
         let button = UIButton(type: .system)
-//        let imageName = isFavorite ? "heart.fill" : "heart"
         button.setImage(UIImage(systemName: "heart"), for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.addTarget(self, action: #selector(toggleFavorite), for: .touchUpInside)
@@ -94,12 +98,13 @@ final class HeroDetailView: UIView {
             imageView.heightAnchor.constraint(equalTo: imageView.widthAnchor),
             
             nameLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor),
-            nameLabel.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor),
-            nameLabel.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor),
+            nameLabel.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor, constant: MARGIN_OFFSET),
+            nameLabel.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor, constant: -MARGIN_OFFSET),
+            nameLabel.heightAnchor.constraint(equalToConstant: 88),
             
             descriptionLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor),
-            descriptionLabel.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor),
-            descriptionLabel.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor),
+            descriptionLabel.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor, constant: MARGIN_OFFSET),
+            descriptionLabel.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor, constant: -MARGIN_OFFSET),
             descriptionLabel.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor),
             
 //            activityIndicator.centerXAnchor.constraint(equalTo: self.centerXAnchor),

@@ -17,6 +17,14 @@ class HeroViewController: UIViewController {
         return heroView
     }()
     
+    private lazy var errorView: ErrorView = {
+        let view = ErrorView()
+        view.isHidden = true
+        view.delegate = self
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
     init(viewModel: HeroViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
@@ -29,6 +37,8 @@ class HeroViewController: UIViewController {
     override func loadView() {
         super.loadView()
         self.view = heroView
+        
+        errorView.addToSuperView(heroView)
     }
     
     override func viewDidLoad() {
@@ -36,6 +46,7 @@ class HeroViewController: UIViewController {
 
         viewModel.reloadCollectionViewClosure = { [weak self] in
             DispatchQueue.main.async {
+                self?.errorView.isHidden = true
                 self?.heroView.reloadData()
             }
         }
@@ -46,19 +57,14 @@ class HeroViewController: UIViewController {
             }
         }
         
-        // [gfsf] apagar
-        viewModel.deleteCellClosure = {[weak self] indexPath in
+        viewModel.showErrorView = {[weak self] message in
             DispatchQueue.main.async {
-                self?.heroView.deleteCell(at: indexPath)
+                self?.errorView.isHidden = false
+                self?.errorView.showMessage(message)
             }
         }
 
         viewModel.fetchHeroes()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-//        viewModel.fetchHeroes()
     }
 }
 
@@ -95,5 +101,10 @@ extension HeroViewController: UICollectionViewDelegate, UICollectionViewDataSour
         let selectedHero = viewModel.heroesToDisplay[indexPath.row]
         router?.navigateToHero(with: selectedHero)
     }
+}
 
+extension HeroViewController: ErrorViewDelegate {
+    func retry() {
+        self.viewModel.fetchHeroes()
+    }
 }

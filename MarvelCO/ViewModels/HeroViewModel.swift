@@ -37,18 +37,22 @@ final class HeroViewModel {
     
     var reloadCellClosure: ((IndexPath) -> Void)?
     
-    var deleteCellClosure: ((IndexPath) -> Void)?
+    var showErrorView: ((String) -> Void)?
     
     func fetchHeroes() {
         
         if isFavoriteScreen {
             self.favoriteManager.fetchFavoriteHeroes { [weak self] heroes in
                 self?.heroes = heroes
+                if heroes.count == 0 {
+                    self?.showErrorView?("Não há heróis")
+                }
             }
         } else {
             self.listRepository.fetchHeroes(completion: { [weak self] heroes, error in
                 if let error = error {
                     print("[gfsf] deu erro: \(error)")
+                    self?.showErrorView?("Ocorreu um erro")
                     return
                 }
                 self?.heroes = heroes
@@ -62,17 +66,17 @@ final class HeroViewModel {
     
     func toggleFavorite(_ isFavorite: Bool, hero: Hero) {
         favoriteManager.toggleFavorite(hero: hero)
-//        if let cellToUpdate = cellToUpdate {
-//            self.reloadCellClosure?(cellToUpdate)
-//            self.cellToUpdate = nil
-//        }
     }
     
     @objc func favoritesUpdated() {
         if isFavoriteScreen {
             self.favoriteManager.fetchFavoriteHeroes { [weak self] heroes in
                 self?.heroes = heroes
-                self?.reloadCollectionViewClosure?()
+                if heroes.count == 0 {
+                    self?.showErrorView?("Não há heróis")
+                } else {
+                    self?.reloadCollectionViewClosure?()
+                }
             }
         } else {
             self.reloadCollectionViewClosure?()
