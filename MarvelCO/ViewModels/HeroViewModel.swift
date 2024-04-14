@@ -41,13 +41,19 @@ final class HeroViewModel {
     
     func fetchHeroes() {
         
-        self.listRepository.fetchHeroes(completion: { [weak self] heroes, error in
-            if let error = error {
-                print("[gfsf] deu erro: \(error)")
-                return
+        if isFavoriteScreen {
+            self.favoriteManager.fetchFavoriteHeroes { [weak self] heroes in
+                self?.heroes = heroes
             }
-            self?.heroes = heroes
-        })
+        } else {
+            self.listRepository.fetchHeroes(completion: { [weak self] heroes, error in
+                if let error = error {
+                    print("[gfsf] deu erro: \(error)")
+                    return
+                }
+                self?.heroes = heroes
+            })
+        }
     }
     
     func isFavorite(_ hero: Hero) -> Bool {
@@ -63,6 +69,13 @@ final class HeroViewModel {
     }
     
     @objc func favoritesUpdated() {
-        self.reloadCollectionViewClosure?()
+        if isFavoriteScreen {
+            self.favoriteManager.fetchFavoriteHeroes { [weak self] heroes in
+                self?.heroes = heroes
+                self?.reloadCollectionViewClosure?()
+            }
+        } else {
+            self.reloadCollectionViewClosure?()
+        }
     }
 }

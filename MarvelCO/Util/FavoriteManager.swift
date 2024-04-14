@@ -7,38 +7,55 @@
 
 import Foundation
 
-class FavoriteManager {
+class FavoriteManager: FetchProtocol {
+    
     private let localDataRepository: RepositoryProtocol
+    private let repository: FavoriteProtocol
     
     init(localDataRepository: RepositoryProtocol) {
         self.localDataRepository = localDataRepository
+        self.repository = CoreDataRepository()
+        repository.deleteAllFavoriteHeroes()
     }
     
     var favoriteHeroes = [Hero]()
     
-    func fetchFavoriteHeroes() {
-        self.localDataRepository.fetchHeroes { [weak self] heroes, error in
-            if let error = error {
-                self?.favoriteHeroes = []
-                return
-            }
-            
+    func fetchHeroes(completion: @escaping ([Hero], Error?) -> Void) {
+        self.repository.fetchFavorite { [weak self] heroes in
             self?.favoriteHeroes = heroes
+            completion(heroes, nil)
         }
     }
     
+    func fetchFavoriteHeroes(completion: @escaping (([Hero]) -> Void)) {
+        
+        self.repository.fetchFavorite { [weak self] heroes in
+            self?.favoriteHeroes = heroes
+            completion(heroes)
+        }
+        
+//        self.localDataRepository.fetchHeroes { [weak self] heroes, error in
+//            if let error = error {
+//                self?.favoriteHeroes = []
+//                return
+//            }
+//            
+//            self?.favoriteHeroes = heroes
+//        }
+    }
+    
     func isFavorite(_ hero: Hero) -> Bool {
-        return favoriteHeroes.contains { $0.id == hero.id }
+//        return favoriteHeroes.contains { $0.id == hero.id }
+        return (repository.findHero(with: hero.id) != nil)
     }
 
     func toggleFavorite(hero: Hero) {
-        if let index = favoriteHeroes.firstIndex(where: { $0.id == hero.id }) {
-            favoriteHeroes.remove(at: index)
+
+        if let favoriteHero = repository.findHero(with: hero.id) {
+            repository.removeFromFavorite(hero: favoriteHero)
         } else {
-            favoriteHeroes.append(hero)
+            repository.addToFavorite(hero: hero)
         }
-        
-        localDataRepository.saveHeroes(favoriteHeroes) { _ in }
         
         NotificationCenter.default.post(name: .didUpdateFavorites, object: hero)
     }

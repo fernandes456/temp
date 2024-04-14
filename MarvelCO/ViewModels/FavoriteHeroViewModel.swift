@@ -25,13 +25,16 @@ final class FavoriteHeroViewModel {
     var reloadCollectionViewClosure: (() -> Void)?
     
     func fetchHeroes() {
-        self.localDataRepository.fetchHeroes { [weak self] heroes, error in
-            if let error = error {
-                print("[gfsf] deu erro: \(error)")
-                return
-            }
+        favotiteManager.fetchFavoriteHeroes { [weak self] heroes in
             self?.heroes = heroes
         }
+//        self.localDataRepository.fetchHeroes { [weak self] heroes, error in
+//            if let error = error {
+//                print("[gfsf] deu erro: \(error)")
+//                return
+//            }
+//            self?.heroes = heroes
+//        }
     }
     
     func isFavorite(_ hero: Hero) -> Bool {

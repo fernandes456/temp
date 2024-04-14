@@ -19,6 +19,8 @@ extension FavoriteHero {
     @NSManaged public var heroId: Int32
     @NSManaged public var heroName: String?
     @NSManaged public var heroDescription: String?
+    @NSManaged public var thumbnail: String?
+    @NSManaged public var thumbnailExtension: String?
 
 }
 

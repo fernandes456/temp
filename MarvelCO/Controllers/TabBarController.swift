@@ -26,6 +26,8 @@ class TabBarController: UITabBarController {
         let favoriteViewModel = HeroViewModel(listRepository: memoryRepository, favoriteManager: favoriteManager, isFavoriteScreen: true)
         let favoriteHeroesHeroesViewController = HeroViewController(viewModel: favoriteViewModel)
         favoriteHeroesHeroesViewController.tabBarItem = UITabBarItem(title: "Favoritos", image: UIImage(systemName: "star.fill"), tag: 1)
+        let favoriteRouter = HeroDetailRouter(viewController: favoriteHeroesHeroesViewController, favoriteManager: favoriteManager)
+        favoriteHeroesHeroesViewController.router = favoriteRouter
         
         let controllers = [allHeroesViewController, favoriteHeroesHeroesViewController].map {
             UINavigationController(rootViewController: $0)

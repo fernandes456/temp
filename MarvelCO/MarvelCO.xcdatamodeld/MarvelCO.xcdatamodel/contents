@@ -4,5 +4,7 @@
         <attribute name="heroDescription" optional="YES" attributeType="String"/>
         <attribute name="heroId" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="heroName" optional="YES" attributeType="String"/>
+        <attribute name="thumbnail" optional="YES" attributeType="String"/>
+        <attribute name="thumbnailExtension" optional="YES" attributeType="String"/>
     </entity>
 </model>

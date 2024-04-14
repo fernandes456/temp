@@ -12,6 +12,8 @@ protocol FavoriteProtocol {
     func addToFavorite(hero: Hero)
     func removeFromFavorite(hero: Hero)
     func fetchFavorite(completion: @escaping ([Hero]) -> Void)
+    func findHero(with heroId: Int) -> Hero?
+    func deleteAllFavoriteHeroes()
 }
 
 struct CoreDataRepository: FavoriteProtocol {
@@ -26,8 +28,9 @@ struct CoreDataRepository: FavoriteProtocol {
                 heroToSave.heroId = Int32(hero.id)
                 heroToSave.heroName = hero.name
                 heroToSave.heroDescription = hero.description
+                heroToSave.thumbnail = hero.thumbnail.path
+                heroToSave.thumbnailExtension = hero.thumbnail.extension
             }
-
         }
         do {
             try managedContext.save()
@@ -35,6 +38,35 @@ struct CoreDataRepository: FavoriteProtocol {
         } catch let error as NSError {
             print("Could not save. \(error), \(error.userInfo)")
         }
+    }
+    
+    func findHero(with heroId: Int) -> Hero? {
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return nil }
+        let managedContext = appDelegate.persistentContainer.viewContext
+        
+        let fetchRequest: NSFetchRequest<NSManagedObject> = NSFetchRequest(entityName: ENITITY_NAME)
+        fetchRequest.predicate = NSPredicate(format: "heroId == %d", heroId)
+        
+        do {
+            let favoriteHeroes = try managedContext.fetch(fetchRequest)
+            if let favoriteHero = favoriteHeroes.first as? FavoriteHero,
+               let heroName = favoriteHero.heroName,
+               let heroDescription = favoriteHero.heroDescription,
+               let heroThumbnail = favoriteHero.thumbnail,
+               let heroThumbnailExtension = favoriteHero.thumbnailExtension {
+                let heroId = Int(favoriteHero.heroId)
+                return Hero(id: heroId,
+                                name: heroName,
+                                description: heroDescription,
+                                thumbnail: Thumbnail(path: heroThumbnail, extension: heroThumbnailExtension))
+            }
+            
+        } catch let error as NSError {
+            print("Could not fetch. \(error), \(error.userInfo)")
+            return nil
+        }
+        
+        return nil
     }
     
     func removeFromFavorite(hero: Hero) {
@@ -90,7 +122,8 @@ struct CoreDataRepository: FavoriteProtocol {
                         id: managedObject.value(forKeyPath: "heroId") as? Int ?? 0,
                         name: managedObject.value(forKey: "heroName") as? String ?? "",
                         description: managedObject.value(forKey: "heroDescription") as? String ?? "", 
-                        thumbnail: Thumbnail(path: "https://images.immediate.co.uk/production/volatile/sites/3/2023/10/INVIS2FG00113118Still1533000-036fc34", extension: "jpg")
+                        thumbnail: Thumbnail(path: managedObject.value(forKey: "thumbnail") as? String ?? "",
+                                             extension: managedObject.value(forKey: "thumbnailExtension") as? String ?? "")
                     )
                 }
                 DispatchQueue.main.async {

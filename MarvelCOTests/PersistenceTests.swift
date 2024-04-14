@@ -69,6 +69,41 @@ final class PersistenceTests: XCTestCase {
         wait(for: [exp], timeout: 30.0)
     }
     
+    func test_persistence_AddAndCheckAllModelAttributes() {
+        let (hero1, _) = makeHero(name: "Wilson", id: 1)
+        let (hero2, _) = makeHero(name: "Zoe", id: 2)
+        
+        repository.addToFavorite(hero: hero1)
+        repository.addToFavorite(hero: hero2)
+        
+        let heroToBeChecked = repository.findHero(with: hero1.id)!
+        XCTAssertEqual(hero1.id, heroToBeChecked.id)
+        XCTAssertEqual(hero1.name, heroToBeChecked.name)
+        XCTAssertEqual(hero1.description, heroToBeChecked.description)
+        XCTAssertEqual(hero1.thumbnail.path, heroToBeChecked.thumbnail.path)
+        XCTAssertEqual(hero1.thumbnail.extension, heroToBeChecked.thumbnail.extension)
+    }
+    
+    func test_persistence_CheckAllModelAttributesFromFetch() {
+        let (hero1, _) = makeHero(name: "Wilson", id: 1)
+        let exp = expectation(description: "Wait loading from db")
+        
+        repository.addToFavorite(hero: hero1)
+        
+        repository.fetchFavorite { heroes in
+            let heroToBeChecked = heroes.first!
+            XCTAssertEqual(hero1.id, heroToBeChecked.id)
+            XCTAssertEqual(hero1.name, heroToBeChecked.name)
+            XCTAssertEqual(hero1.description, heroToBeChecked.description)
+            XCTAssertEqual(hero1.thumbnail.path, heroToBeChecked.thumbnail.path)
+            XCTAssertEqual(hero1.thumbnail.extension, heroToBeChecked.thumbnail.extension)
+            
+            exp.fulfill()
+        }
+
+        wait(for: [exp], timeout: 3.0)
+    }
+    
     // MARK: - Helpers
     private func makeHero(name: String, id: Int) -> (hero: Hero, json: [String: Any]) {
         let (thumbnail, thumbnailJson) = makeThumbnail()
