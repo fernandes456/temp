@@ -132,8 +132,8 @@ final class MarvelCOTests: XCTestCase {
         let (sut, client) = makeSUT()
         let exp = expectation(description: "Wait for request")
         
-        let hero1 = makeHero(name: "Wilson", id: 1, url: URL(string: "https://a-wilson-url.com")!)
-        let hero2 = makeHero(name: "Zoe", id: 2, url: URL(string: "https://a-wilson-url.com")!)
+        let hero1 = makeHero(name: "Wilson", id: 1)
+        let hero2 = makeHero(name: "Zoe", id: 2)
         
         sut.load { receivedResult in
             switch receivedResult {
@@ -161,38 +161,6 @@ final class MarvelCOTests: XCTestCase {
         let sut = RemoteFeedLoader(client: client, url: url)
         
         return (sut, client)
-    }
-    
-    private func makeHero(name: String, id: Int, url: URL) -> (hero: Hero, json: [String: Any]) {
-        let (thumbnail, thumbnailJson) = makeThumbnail()
-        let hero = Hero(id: id, name: name, description: "A description", thumbnail: thumbnail)
-        
-        // [gfsf] explicar exatamente o que isso aqui faz
-        let heroJson = [
-            "id": hero.id,
-            "name": hero.name,
-            "description": hero.description,
-            "thumbnail": thumbnailJson
-        ].compactMapValues { $0 }
-        
-        return (hero, heroJson)
-    }
-    
-    private func makeThumbnail() -> (thumnail: Thumbnail, json: [String: Any]) {
-        let thumbnail = Thumbnail(path: "https://a-thumbnail-url.com", extension: "jpg")
-        
-        let thumbnailJson = [
-            "path" : thumbnail.path,
-            "extension": thumbnail.extension
-        ]
-        
-        return (thumbnail, thumbnailJson)
-    }
-    
-    private func makeHeroesJSON(_ items: [[String: Any]]) -> Data {
-        let json = ["data":
-                        ["results" : items]]
-        return try! JSONSerialization.data(withJSONObject: json)
     }
 
     private class HTTPClientSpy: HTTPClient {
