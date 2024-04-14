@@ -77,6 +77,7 @@ extension HeroViewController: UICollectionViewDelegate, UICollectionViewDataSour
         }
         let hero = viewModel.heroesToDisplay[indexPath.item]
         cell.configure(with: hero)
+        cell.accessibilityIdentifier = "heroCellIdentifier"
         cell.isFavorite = viewModel.isFavorite(hero)
         
         cell.didToggleFavorite = { [weak self, weak cell] isFavorite in

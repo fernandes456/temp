@@ -27,6 +27,7 @@ class HeroView: UIView {
     
     private lazy var searchTextField: UITextField = {
         let textField = UITextField()
+        textField.accessibilityIdentifier = "searchFieldIdentifer"
         textField.backgroundColor = .darkGray
         textField.placeholder = "Buscar"
         textField.delegate = self

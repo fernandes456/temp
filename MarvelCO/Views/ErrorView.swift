@@ -73,7 +73,7 @@ class ErrorView: UIView {
     
     private func setupView() {
         backgroundColor = .white
-        
+        self.accessibilityIdentifier = "errorViewIdentifier"
         addSubViews()
         addConstraints()
     }

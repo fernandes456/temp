@@ -28,6 +28,7 @@ final class HeroDetailView: UIView {
     
     private lazy var nameLabel: UILabel = {
         let label = UILabel()
+        label.accessibilityIdentifier = "nameIdentifier"
         label.numberOfLines = 2
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -50,6 +51,7 @@ final class HeroDetailView: UIView {
     
     private lazy var favoriteButton: UIButton = {
         let button = UIButton(type: .system)
+        button.accessibilityIdentifier = "favoriteButtonIdentifier"
         button.setImage(UIImage(systemName: "heart"), for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.addTarget(self, action: #selector(toggleFavorite), for: .touchUpInside)

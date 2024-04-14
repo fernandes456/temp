@@ -13,6 +13,7 @@ class HeroCell: UICollectionViewCell {
     
     private lazy var nameLabel: UILabel = {
         let label = UILabel()
+        label.accessibilityIdentifier = "nameCellIdentifier"
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -40,6 +41,7 @@ class HeroCell: UICollectionViewCell {
     
     private lazy var favoriteButton: UIButton = {
         let button = UIButton(type: .system)
+        button.accessibilityIdentifier = "favoriteCellButtonIdentifier"
         button.translatesAutoresizingMaskIntoConstraints = false
         button.addTarget(self, action: #selector(toggleFavorite), for: .touchUpInside)
         return button
